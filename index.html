@@ -110,7 +110,10 @@
                         null,
                         2
                     );
-                })
+                }).catch((error) => {
+    console.error("Fetch error:", error);
+    document.getElementById("responseOutput").textContent = `Fetch error: ${error.message}`;
+});
 
         }
     </script>
