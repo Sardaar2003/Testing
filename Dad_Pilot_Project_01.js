@@ -6,7 +6,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(
   cors({
-    origin: "100.20.92.101" || "44.225.181.72" || "44.227.217.144",
+    origin: "http://100.20.92.101" || "http://44.225.181.72" || "http://44.227.217.144",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
