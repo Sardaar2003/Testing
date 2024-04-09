@@ -6,7 +6,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(
   cors({
-    origin: "rewardscenter.club",
+    origin: "rewardscenter.club/",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
