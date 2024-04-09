@@ -4,6 +4,13 @@ const app = express();
 const path = require("path");
 app.use(express.json());
 const port = 8080;
+app.use(
+  cors({
+    origin: "https://testing-pzaz.onrender.com",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.listen(port, () => {
   console.log(__dirname);
   console.log(`App is Listening on ${port}`);
