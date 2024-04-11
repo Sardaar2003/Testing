@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PSOnline API</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+        <style>
+                .container {
+                        max-width: 100%;
+                        margin: auto;
+                        padding: 2rem;
+                        background-color: #f5f5f5;
+                        border-radius: 10px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+
+                .form-group {
+                        margin-bottom: 1.5rem;
+                }
+
+                .form-row {
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin-right: -5px;
+                        margin-left: -5px;
+                }
+
+                .form-row>[class*="col-"] {
+                        padding-right: 5px;
+                        padding-left: 5px;
+                }
+
+                .col-md-6 {
+                        flex: 0 0 50%;
+                        max-width: 50%;
+                }
+
+                @media (max-width: 768px) {
+                        .col-md-6 {
+                                flex: 0 0 100%;
+                                max-width: 100%;
+                        }
+                }
+        </style>
+</head>
+
+<body>
+        <div class="container mt-5">
+                <h1 class="text-center mb-5">PSOnline API</h1>
+                <form id="payment-form">
+                        <div class="row">
+                                <div class="col-md-6">
+                                        <!-- Card Number -->
+                                        <div class="form-group mb-3">
+                                                <label for="card-num">Card Number</label>
+                                                <input type="text" id="card-num" name="card_num" class="form-control"
+                                                        required>
+                                        </div>
+
+                                        <!-- Expiration Month and Year -->
+                                        <div class="form-row">
+                                                <div class="form-group col-md-6 mb-3">
+                                                        <label for="card-expm">Expiration Month</label>
+                                                        <input type="text" id="card-expm" name="card_expm"
+                                                                class="form-control" required>
+                                                </div>
+                                                <div class="form-group col-md-6 mb-3">
+                                                        <label for="card-expy">Expiration Year</label>
+                                                        <input type="text" id="card-expy" name="card_expy"
+                                                                class="form-control" required>
+                                                </div>
+                                        </div>
+
+                                        <!-- CVV -->
+                                        <div class="form-group mb-3">
+                                                <label for="card-cvv">CVV</label>
+                                                <input type="text" id="card-cvv" name="card_cvv" class="form-control"
+                                                        required>
+                                        </div>
+
+                                        <!-- First and Last Name -->
+                                        <div class="form-group mb-3">
+                                                <label for="first-name">First Name</label>
+                                                <input type="text" id="first-name" name="CustomerFirstName"
+                                                        class="form-control" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                                <label for="last-name">Last Name</label>
+                                                <input type="text" id="last-name" name="CustomerLastName"
+                                                        class="form-control" required>
+                                        </div>
+
+                                        <!-- Billing Address -->
+                                        <div class="form-group mb-3">
+                                                <label for="billing-address">Billing Address</label>
+                                                <input type="text" id="billing-address" name="BillingStreetAddress"
+                                                        class="form-control" required>
+                                        </div>
+
+                                        <!-- City, State, and Zip Code -->
+                                        <div class="form-row">
+                                                <div class="form-group col-md-6 mb-3">
+                                                        <label for="billing-city">City</label>
+                                                        <input type="text" id="billing-city" name="BillingCity"
+                                                                class="form-control" required>
+                                                </div>
+                                                <div class="form-group col-md-6 mb-3">
+                                                        <label for="billing-state">State</label>
+                                                        <input type="text" id="billing-state" name="BillingState"
+                                                                class="form-control" required>
+                                                </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                                <label for="billing-zip">Zip Code</label>
+                                                <input type="text" id="billing-zip" name="BillingZipCode"
+                                                        class="form-control" required>
+                                        </div>
+
+                                        <!-- Email and Phone -->
+                                        <div class="form-group mb-3">
+                                                <label for="email">Email</label>
+                                                <input type="email" id="email" name="Email" class="form-control"
+                                                        required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                                <label for="phone">Phone</label>
+                                                <input type="tel" id="phone" name="BillingHomePhone"
+                                                        class="form-control" required>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                        <!-- Amount -->
+                                        <div class="form-group mb-3">
+                                                <label for="amount">Amount</label>
+                                                <input type="number" id="amount" name="amount" class="form-control"
+                                                        step="0.01" required>
+                                        </div>
+                                        <div class="form-group mb-3"> <label for="product-count">Product Count</label>
+                                                <input type="number" id="product-count" name="ProductCount"
+                                                        class="form-control" required> </div>
+
+                                        <!-- Radio Buttons -->
+                                        <div class="form-group mb-3">
+                                                <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="productid_1"
+                                                                id="id-theft" value="43" required>
+                                                        <label class="form-check-label" for="id-theft">
+                                                                ID Theft Protection
+                                                        </label>
+                                                </div>
+                                                <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="productid_1"
+                                                                id="telemed" value="46" required>
+                                                        <label class="form-check-label" for="telemed">
+                                                                Telemed Services
+                                                        </label>
+                                                </div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="form-group">
+                                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                        </div>
+                                        <pre id="response"></pre>
+                                </div>
+                        </div>
+                </form>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="script.js"></script>
+</body>
+
+</html>
