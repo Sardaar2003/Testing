@@ -4,11 +4,11 @@ const path = require("path");
 const request = require("request");
 
 app.use(express.json());
-app.use(express.static("public"));
-app.get("*.js", function (req, res, next) {
-  res.set("Content-Type", "application/javascript");
-  next();
-});
+// app.use(express.static("public"));
+// app.get("*.js", function (req, res, next) {
+//   res.set("Content-Type", "application/javascript");
+//   next();
+// });
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
@@ -45,7 +45,7 @@ app.post("/api/process", (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
