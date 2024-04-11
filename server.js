@@ -4,15 +4,28 @@ const path = require("path");
 const request = require("request");
 
 app.use(express.json());
-// app.use(express.static("public"));
-// app.get("*.js", function (req, res, next) {
-//   res.set("Content-Type", "application/javascript");
-//   next();
-// });
+app.use(express.static("public"));
+app.get("*.js", function (req, res, next) {
+  res.set("Content-Type", "application/javascript");
+  next();
+});
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "index1.html"));
+});
+app.get("/script.js", (req, res) => {
+  res.set("Content-Type", "application/javascript");
+  res.sendFile(path.join(__dirname, "script.js"));
 });
 app.post("/api/process", (req, res) => {
+  // console.log(req.body);
   const options = {
     url: "https://app.periodicalservices.com/api/woocommerce/v1.8/process.asp",
     method: "POST",
