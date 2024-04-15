@@ -25,7 +25,7 @@ app.get("*.js", function (req, res, next) {
   next();
 });
 mongoose.connect(
-  `mongodb+srv://singhmantej536:${process.env.MONGODB_KEY}@freelanced.poewsdo.mongodb.net/`,
+  `mongodb+srv://singhmantej536:ROhp7kxeirslZw1L@freelanced.poewsdo.mongodb.net/`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -114,7 +114,7 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
     },
     store: new MongoDBStore({
-      uri: `mongodb+srv://singhmantej536:${process.env.MONGODB_KEY}@freelanced.poewsdo.mongodb.net/`,
+      uri: "mongodb+srv://singhmantej536:ROhp7kxeirslZw1L@freelanced.poewsdo.mongodb.net/",
       collection: "sessions",
     }),
   })
