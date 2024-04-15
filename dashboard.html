@@ -89,7 +89,7 @@
         async function updateDataDisplay() {
             try {
                 // Send a POST request to fetch data from the /getData endpoint
-                const response = await fetch("/data", {
+                const response = await fetch("/getInfo", {
                     method: "POST",
                     credentials: "same-origin" // Include cookies in the request
                 });
