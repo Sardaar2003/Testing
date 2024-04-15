@@ -24,13 +24,17 @@ app.get("*.js", function (req, res, next) {
   res.set("Content-Type", "application/javascript");
   next();
 });
-mongoose.connect(
-  `mongodb+srv://singhmantej536:ROhp7kxeirslZw1L@freelanced.poewsdo.mongodb.net/`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+const run = async () => {
+  const MONG_URL = `mongodb+srv://singhmantej536:ROhp7kxeirslZw1L@freelanced.poewsdo.mongodb.net/`;
+  await mongoose.connect(MONG_URL);
+};
+run()
+  .then(() => {
+    console.log(`Connected to DB`);
+  })
+  .catch((err) => {
+    console.log(`Failed to Connect ${err}`);
+  });
 
 // Login Details
 const userSchema = new mongoose.Schema({
@@ -435,6 +439,73 @@ app.get("/reset-password", (req, res) => {
 function generateUniqueCode() {
   return Math.floor(100000 + Math.random() * 900000);
 }
+
+app.post("/forgot-password", (req, res) => {
+  const email = req.body.email;
+  const uniqueCode = generateUniqueCode();
+  User.findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+
+      user.uniqueCode = uniqueCode;
+      return user.save();
+    })
+    .then((user) => {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "psonline514@gmail.com",
+          pass: "Mantej07!@1234",
+        },
+      });
+
+      const mailOptions = {
+        from: "psonline514@gmail.com",
+        to: email,
+        subject: "Reset your password",
+        text: `Your unique code is ${uniqueCode}`,
+      };
+
+      return transporter.sendMail(mailOptions);
+    })
+    .then(() => {
+      res.redirect("/reset-password?code=" + uniqueCode);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    });
+});
+
+app.post("/reset-password", (req, res) => {
+  const code = req.body.code;
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
+
+  User.findOne({ uniqueCode: code }, (err, user) => {
+    if (err) {
+      return res.status(500).send("Internal Server Error");
+    }
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).send("Passwords do not match");
+    }
+
+    user.password = password;
+    user.uniqueCode = undefined;
+    user.save((err, user) => {
+      if (err) {
+        return res.status(500).send("Internal Server Error");
+      }
+      res.redirect("/");
+    });
+  });
+});
 
 app.get("/getData", async (req, res) => {
   try {
