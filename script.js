@@ -9,8 +9,12 @@ const config = {
 
 // Get the form and the response element
 const form = document.getElementById("payment-form");
+const button = document.getElementById("back-button");
 const responseElement = document.getElementById("response");
 
+button.addEventListener("click", () => {
+  window.location.href = "/dashboard";
+});
 // Add an event listener for the form submission
 form.addEventListener("submit", async (e) => {
   // Prevent the form from submitting normally

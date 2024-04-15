@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #222222;
+            color: #ffffff;
+        }
+
+        .rounded-corners {
+            border-radius: 10px;
+        }
+
+        .border-dark-theme {
+            border: 1px solid #444444;
+        }
+
+        .welcome-heading {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+            width: 75%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card-style {
+            background-color: #333333;
+            border: none;
+            color: #ffffff;
+        }
+
+        .add-data-button {
+            margin-top: 50px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .logout {
+            margin-left: 10rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="welcome-heading">
+        <h1>Welcome to your dashboard!</h1>
+
+
+
+    </header>
+
+    <div class="card-container">
+        <div class="card text-center card-style">
+            <div class="card-body">
+                <h5 class="card-title">Total data entered</h5>
+                <p class="card-text" id="total-data"></p>
+            </div>
+        </div>
+        <div class="card text-center card-style">
+            <div class="card-body">
+                <h5 class="card-title">Data entered today</h5>
+                <p class="card-text" id="today-data"></p>
+            </div>
+        </div>
+    </div>
+
+    <button id="add-data" class="btn btn-primary add-data-button">Add Data</button>
+    <button id="view-logs" class="btn btn-primary add-data-button">View Log Details</button>
+    <button id="logout" class="btn btn-danger add-data-button">Logout</button>
+
+
+
+    <script>
+        const button = document.getElementById("view-logs");
+        button.addEventListener("click", () => {
+            window.location.href = "/adminInfo";
+        })
+        async function updateDataDisplay() {
+            try {
+                // Send a POST request to fetch data from the /getData endpoint
+                const response = await fetch("/getData", {
+                    method: "POST",
+                    credentials: "same-origin" // Include cookies in the request
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // Update total data entered
+                    const totalDataElement = document.getElementById("total-data");
+                    totalDataElement.textContent = data.totalRecordsUntilCurrentDate;
+
+                    // Update data entered today
+                    const todayDataElement = document.getElementById("today-data");
+                    todayDataElement.textContent = data.totalRecordsOnCurrentDate;
+                } else {
+                    console.error("Failed to fetch data:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        // Function to handle logout
+        async function handleLogout() {
+            try {
+                // Send a POST request to the /logout endpoint
+                const response = await fetch("/logout", {
+                    method: "POST",
+                    credentials: "same-origin" // Include cookies in the request
+                });
+
+                if (response.ok) {
+                    console.log("Logout successful");
+                    // Redirect to the login page after logout
+                    window.location.href = "/"; // Redirect to the homepage or login page
+                } else {
+                    console.error("Logout failed:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Logout error:", error);
+            }
+        }
+
+        // Add event listeners after DOM content is fully loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            // Update data display when the page loads
+            updateDataDisplay();
+
+            // Add event listener for the logout button
+            const logoutButton = document.getElementById("logout");
+            logoutButton.addEventListener("click", handleLogout);
+
+            // Add event listener for the Add Data button
+            const addDataButton = document.getElementById("add-data");
+            addDataButton.addEventListener("click", () => {
+                // Redirect to the data entry page
+                window.location.href = "/dataEntry";
+            });
+        });
+    </script>
+</body>
+
+</html>

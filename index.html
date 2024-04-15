@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSOnline API Example</title>
+    <style>
+        /* Add your custom styles here */
+    </style>
+</head>
+
+<body>
+    <h1>PSOnline API Example</h1>
+    <button id="submit-btn">Submit</button>
+    <pre id="response"></pre>
+
+    <script>
+        const submitBtn = document.getElementById('submit-btn');
+        const reponseVal = document.getElementById("response");
+        submitBtn.addEventListener('click', async () => {
+            const payload = {
+                domain: "rewardscenter.club",
+                APIKey: "1cc2f734-9d18-48cc-81f6-5b2801fea8d2",
+                capture_delay: 0,
+                MerchantID: "0",
+                buildorder: 1,
+                card_num: "4867966912576317",
+                card_expm: "09",
+                card_expy: "2027",
+                card_cvv: "123",
+                CustomerFirstName: "Jeff",
+                CustomerLastName: "Lourent",
+                BillingStreetAddress: "2205 Butterfield Rd",
+                BillingCity: "Yakima",
+                BillingState: "WA",
+                BillingZipCode: "98901",
+                ShippingFirstName: "",
+                ShippingLastName: "",
+                ShippingStreetAddress: "",
+                ShippingApt: "",
+                ShippingCity: "",
+                ShippingState: "",
+                ShippingZipCode: "",
+                Email: "lourentjeff143@gmail.com",
+                BillingHomePhone: "5095172060",
+                amount: 2.85,
+                ProductCount: 1,
+                productid_1: 43,
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const jsonResponse = await response.json();
+
+                if (response.ok) {
+                    console.log(response);
+
+                    reponseVal.textContent = JSON.stringify(jsonResponse, null, 2);
+
+                } else {
+
+                    reponseVal.textContent = `Error: ${jsonResponse.error}\n\n${data}`;
+
+                }
+            } catch (error) {
+                reponseVal.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+
+</html>
