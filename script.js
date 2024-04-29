@@ -15,6 +15,10 @@ const responseElement = document.getElementById("response");
 button.addEventListener("click", () => {
   window.location.href = "/dashboard";
 });
+
+document.getElementById('reset-button').addEventListener('click', function() {
+  document.getElementById('payment-form').reset();
+});
 // Add an event listener for the form submission
 form.addEventListener("submit", async (e) => {
   // Prevent the form from submitting normally
@@ -55,7 +59,8 @@ form.addEventListener("submit", async (e) => {
     // Display the response from the backend
     responseElement.textContent = JSON.stringify(response.data, null, 2);
   } catch (error) {
+    console.log(error);
     // Display the error message if the request fails
-    responseElement.textContent = `Error: ${error.message}`;
+    responseElement.textContent = `Error: ${error.response.data.error}`;
   }
 });
